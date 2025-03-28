@@ -56,7 +56,11 @@ export async function POST(req: NextRequest) {
         // const session = await ort.InferenceSession.create(
         //     process.cwd() + "/public/chess_model.onnx"
         // );
-                const session = await ort.InferenceSession.create("https://chess-ai-model.vercel.app/chess_model.onnx");
+        const modelUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/chess_model.onnx`;
+        const session = await ort.InferenceSession.create(modelUrl);
+// const response = await fetch("https://drive.google.com/uc?export=download&id=1rQhD0nSVjJt5YNTNwfSOlyiioPEbghwX");
+// const buffer = await response.arrayBuffer();
+// const session = await ort.InferenceSession.create(buffer);
 
         // Parse input
         const body = await req.json();
@@ -68,7 +72,7 @@ export async function POST(req: NextRequest) {
 
         
     // Initialize the board with the current FEN
-     const board = new Chess(fen);
+      const board = new Chess(fen);
 
         // Convert FEN to tensor
         const tensorInput = new ort.Tensor("float32", fenToTensor(fen), [1, 12, 8, 8]);

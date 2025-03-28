@@ -12,16 +12,16 @@ export default function ChessWithAI() {
   async function fetchAIMove(fen) {
     try {
       console.log("Fetching AI move...");
-      const response = await fetch(`/api/predictMove`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/predict/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fen }),
+        params: { fen },
       });
 
       if (!response.ok) throw new Error("Failed to fetch AI move");
       const data = await response.json();
-      console.log("AI Move:", data.move);
-      return data.move;
+      console.log("AI Move:", data.prediction);
+      return data.prediction;
     } catch (error) {
       console.error("Error fetching AI move:", error);
       return null;
