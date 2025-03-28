@@ -53,9 +53,10 @@ export async function POST(req: NextRequest) {
 
 
     try {
-        const session = await ort.InferenceSession.create(
-            process.cwd() + "/public/chess_model.onnx"
-        );
+        // const session = await ort.InferenceSession.create(
+        //     process.cwd() + "/public/chess_model.onnx"
+        // );
+                const session = await ort.InferenceSession.create("https://chess-ai-model.vercel.app/chess_model.onnx");
 
         // Parse input
         const body = await req.json();
